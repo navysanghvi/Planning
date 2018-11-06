@@ -177,8 +177,19 @@ public:
 
     bool operator==(const Condition& rhs) const
     {
-        if (this->predicate != rhs.predicate || this->truth != rhs.truth) // || this->get_args().size() != this->get_args().size())
+        if (this->predicate != rhs.predicate || this->args.size() != rhs.args.size() || this->truth != rhs.truth)
             return false;
+
+        auto lhs_it = this->args.begin();
+        auto rhs_it = rhs.args.begin();
+
+        while (lhs_it != this->args.end() && rhs_it != rhs.args.end())
+        {
+            if (*lhs_it != *rhs_it)
+                return false;
+            ++lhs_it;
+            ++rhs_it;
+        }
 
         return true;
     }
@@ -378,6 +389,16 @@ public:
     vector<string> get_symbols_v() const
     {
         return this->symbols_v;
+    }
+
+    unordered_set<GroundedCondition, GroundedConditionHasher, GroundedConditionComparator> get_initial_conditions() const
+    {
+        return this->initial_conditions;
+    }
+
+    unordered_set<GroundedCondition, GroundedConditionHasher, GroundedConditionComparator> get_goal_conditions() const
+    {
+        return this->goal_conditions;
     }
 
     friend ostream& operator<<(ostream& os, const Env& w)
