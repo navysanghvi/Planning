@@ -12,5 +12,5 @@ class Compare
 {
 public:
 	bool operator () (GraphVertex* a, GraphVertex* b) const {
-		return (a->m_pCost > b->m_pCost);}
+		return (a->m_fVal > b->m_fVal);}
 };

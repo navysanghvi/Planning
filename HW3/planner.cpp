@@ -322,14 +322,14 @@ list<GroundedAction> planner(Env* env)
     actions.push_back(GroundedAction("Move", { "B", "Table", "C" }));
 
     PlanSym* plan_obj = new PlanSym(env);
-    vector<vector<vector<string>>> seq = plan_obj->GetActionSymSequencesUnique();
-    cout << seq.size() << '\n';
-    for(int i = 0; i < seq[0].size(); i++)
-    {
-        for(int j = 0; j < seq[0][i].size(); j++)
-            cout << seq[0][i][j] << ' ';
-        cout << '\n';
-    }
+    // vector<vector<vector<string>>> seq = plan_obj->GetActionSymSequencesUnique();
+    // cout << seq.size() << '\n';
+    // for(int i = 0; i < seq[0].size(); i++)
+    // {
+    //     for(int j = 0; j < seq[0][i].size(); j++)
+    //         cout << seq[0][i][j] << ' ';
+    //     cout << '\n';
+    // }
 
     actions = plan_obj->GetPlan();
 
@@ -339,8 +339,8 @@ list<GroundedAction> planner(Env* env)
 int main(int argc, char* argv[])
 {
     // DO NOT CHANGE THIS FUNCTION
-    //char* filename = (char*)("example.txt");
-    char* filename = (char*)("BT_odd.txt");
+    char* filename = (char*)("example.txt");
+
     if (argc > 1)
         filename = argv[1];
 

@@ -16,6 +16,8 @@ GraphVertex::GraphVertex(GState_t* state, double pathCost, GraphVertex* parent, 
 	m_pCost = pathCost;
 	m_parents.push_back(parent);
 	m_parActions.push_back(parAction);
+	m_hVal = 0;
+	m_fVal = m_pCost + m_hVal;
 }
 
 
@@ -27,6 +29,8 @@ GraphVertex::GraphVertex(GState_t* state, double pathCost)
 {
 	m_state = state;
 	m_pCost = pathCost;
+	m_hVal = 0;
+	m_fVal = m_pCost + m_hVal;
 }
 
 
@@ -34,4 +38,6 @@ GraphVertex::GraphVertex(GState_t* state)
 {
 	m_state = state;
 	m_pCost = D_INF;
+	m_hVal = 0;
+	m_fVal = D_INF;
 }

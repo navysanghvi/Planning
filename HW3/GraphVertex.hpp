@@ -25,6 +25,8 @@ public:
 	double m_pCost;						/* cost from start to vertex */
 	vector<GraphVertex*> m_parents;		/* parents in graph */
 	vector<GAction_t*> m_parActions;	/* actions leading to vertex from parent vertices */
+	double m_hVal;
+	double m_fVal;
 	
 
 };

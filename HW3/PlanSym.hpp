@@ -48,6 +48,7 @@ public:
 protected:
     Env* m_env;
     vector<GAction_t*> m_grounded_actions;
+    int m_numStatesExpanded;
 
 };
 

@@ -1,6 +1,8 @@
 #include <queue>
 #include <vector>
 
+#include <time.h>
+
 #include "PlanSym.hpp"
 #include "Compare.cpp"
 #include "GraphVertex.hpp"
@@ -186,11 +188,15 @@ GraphVertex* PlanSym::GetToGoal()
 	open.push(curr);
 	graph[hashIndex(curr->m_state)] = curr;
 
+	m_numStatesExpanded = 0;
+
 	while(!open.empty())
 	{
 		while(closed[open.top()]) { open.pop(); }
 		curr = open.top(); closed[curr] = 1; open.pop();
 		pCost = curr->m_pCost;
+
+		m_numStatesExpanded++;
 
 		if(IsGoal(curr->m_state)){ return curr; }
 		successors = GetSuccessors(curr->m_state);
@@ -234,8 +240,12 @@ list<PlanSym::GAction_t> PlanSym::BacktrackPath(GraphVertex* goal)
 
 list<PlanSym::GAction_t> PlanSym::GetPlan()
 {
+	clock_t begin_time = clock();
 	GraphVertex* goal = GetToGoal();
 	if(goal == NULL){ cout << "Didn't get to goal\n"; return list<GAction_t>(); }
 
+	cout << "Cost to goal = " << goal->m_pCost << '\n';
+	cout << "Number of States Expanded = " << m_numStatesExpanded << '\n';
+	cout << "Planning Time = " << double(clock() - begin_time)/CLOCKS_PER_SEC << " s\n";
 	return BacktrackPath(goal);
 }
