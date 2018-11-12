@@ -1,0 +1,97 @@
+Heuristic = 0
+
+***** Environment Created! *****
+Cost to goal = 3
+Number of States Expanded = 43
+Planning Time = 0.091125 s
+
+Plan: 
+MoveToTable(T0,B0) 
+Move(T1,B3,B0) 
+Move(B1,B4,B3) 
+
+
+
+
+
+
+
+
+Heuristic = 1
+
+***** Environment Created! *****
+1
+
+State Conditions: On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 0 ;   H value = 3 ;   F value = 3
+2
+
+State Conditions: On(T0,Table) Clear(B0) On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 1 ;   H value = 2 ;   F value = 3
+3
+
+State Conditions: On(T1,B0) On(T0,Table) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) Clear(B3) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 2 ;   H value = 1 ;   F value = 3
+4
+
+State Conditions: On(B1,B3) On(T1,B0) On(T0,Table) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) Block(B2) Block(B0) On(B3,B2) Clear(B4) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 3 ;   H value = 0 ;   F value = 3
+Cost to goal = 3
+Number of States Expanded = 4
+Planning Time = 5.96261 s
+
+Plan: 
+MoveToTable(T0,B0) 
+Move(T1,B3,B0) 
+Move(B1,B4,B3)
+
+
+
+
+
+
+
+
+Heuristic = 2
+
+***** Environment Created! *****
+1
+
+State Conditions: On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 0 ;   H value = 2 ;   F value = 2
+2
+
+State Conditions: On(B1,Table) On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) Block(B2) Block(B0) On(B3,B2) Clear(B4) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 1 ;   H value = 2 ;   F value = 3
+3
+
+State Conditions: On(B3,Table) Clear(B2) On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 1 ;   H value = 2 ;   F value = 3
+4
+
+State Conditions: On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) On(T1,Table) NotTable(B4) NotTable(B2) Clear(B3) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 1 ;   H value = 2 ;   F value = 3
+5
+
+State Conditions: On(B1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) Block(B2) Block(B0) On(B3,B2) Clear(B4) Triangle(T1) On(T0,B0) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) On(T1,Table) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 2 ;   H value = 1 ;   F value = 3
+6
+
+State Conditions: On(T0,Table) Clear(B0) On(T1,B3) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 1 ;   H value = 2 ;   F value = 3
+7
+
+State Conditions: On(T1,B0) On(T0,Table) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) On(B1,B4) Block(B2) Block(B0) On(B3,B2) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) Clear(B3) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 2 ;   H value = 1 ;   F value = 3
+8
+
+State Conditions: On(B1,B3) On(T1,B0) On(T0,Table) On(B4,Table) On(B0,B1) On(B2,Table) Clear(T0) NotTable(B1) Block(B2) Block(B0) On(B3,B2) Clear(B4) Triangle(T1) Block(B1) Block(B4) Triangle(T0) Clear(T1) Block(B3) NotTable(B0) NotTable(B4) NotTable(B2) NotTable(T1) NotTable(B3) NotTable(T0) 
+G value = 3 ;   H value = 0 ;   F value = 3
+Cost to goal = 3
+Number of States Expanded = 8
+Planning Time = 0.022219 s
+
+Plan: 
+MoveToTable(T0,B0) 
+Move(T1,B3,B0) 
+Move(B1,B4,B3)

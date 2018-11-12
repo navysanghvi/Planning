@@ -1,0 +1,58 @@
+Heuristic = 0 
+
+***** Environment Created! *****
+Cost to goal = 6
+Number of States Expanded = 361
+Planning Time = 0.950189 s
+
+Plan: 
+MoveToTable(T0,B0) 
+MoveToTable(T1,B3) 
+MoveToTable(B0,B1) 
+Move(B1,B4,B3) 
+Move(B0,Table,B1) 
+Move(T1,Table,B0)
+
+
+
+
+
+
+
+
+Heuristic = 1
+
+***** Environment Created! *****
+Cost to goal = 6
+Number of States Expanded = 13
+Planning Time = 38.2747 s
+
+Plan: 
+MoveToTable(T0,B0) 
+MoveToTable(B0,B1) 
+MoveToTable(T1,B3) 
+Move(B1,B4,B3) 
+Move(B0,Table,B1) 
+Move(T1,Table,B0) 
+
+
+
+
+
+
+
+
+Heuristic = 2
+
+***** Environment Created! *****
+Cost to goal = 6
+Number of States Expanded = 76
+Planning Time = 0.173265 s
+
+Plan: 
+MoveToTable(T0,B0) 
+MoveToTable(T1,B3) 
+MoveToTable(B0,B1) 
+Move(B1,B4,B3) 
+Move(B0,Table,B1) 
+Move(T1,Table,B0)

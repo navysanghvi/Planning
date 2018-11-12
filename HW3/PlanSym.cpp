@@ -1,5 +1,6 @@
 #include <queue>
 #include <vector>
+#include <limits>
 
 #include <time.h>
 
@@ -7,11 +8,17 @@
 #include "Compare.cpp"
 #include "GraphVertex.hpp"
 
-PlanSym::PlanSym(Env* environment)
+#define D_INF numeric_limits<double>::infinity()
+
+PlanSym::PlanSym(Env* environment, int heurType)
 {
 	m_env = environment;
 	m_grounded_actions = GetGroundedActions();
+	m_heurType = heurType;
 }
+
+PlanSym::PlanSym(){}
+PlanSym::~PlanSym(){}
 
 vector<vector<vector<string>>> PlanSym::GetActionSymSequences()
 {
@@ -79,7 +86,8 @@ GroundedCondition PlanSym::GetGroundedCondition(Condition* cond, vector<string> 
 				insert = 1;
 			}
 		}
-		if(!insert){ ground_args.push_back(c_arg); }
+		if(!insert)
+			ground_args.push_back(c_arg);
 	}
 	return GroundedCondition(cond->get_predicate(), ground_args, cond->get_truth());
 }
@@ -121,6 +129,7 @@ vector<PlanSym::GAction_t*> PlanSym::GetGroundedActions()
 
 bool PlanSym::IsValidAction(GState_t* current_state, GAction_t* action)
 {
+
 	return Contains(current_state, action->get_preconditions());
 }
 
@@ -129,30 +138,33 @@ bool PlanSym::Contains(GState_t* state, GState_t grounded_conditions)
 	bool truth; int count; 
 	for(GroundedCondition gc: grounded_conditions)
 	{
-		truth = gc.get_truth(); count = state->count(gc);
+		truth = gc.get_truth(); 
+		if(truth){ count = state->count(gc); }
+		else{ count = state->count(GroundedCondition(gc.get_predicate(), gc.get_arg_values(), true)); }
 		if((truth && !count) ||(!truth && count)) { return false; }
 	}
 	return true;
 }
 
-PlanSym::GState_t* PlanSym::AffectAction(GState_t* current_state, GAction_t* action)
+PlanSym::GState_t* PlanSym::AffectAction(GState_t* current_state, GAction_t* action, bool emptyDeleteList)
 {
 	GState_t* next_state = new GState_t(*current_state);
 	for(GroundedCondition e: action->get_effects())
 	{
 		if(e.get_truth()) { next_state->insert(e); }
-		else { next_state->erase(GroundedCondition(e.get_predicate(), e.get_arg_values(), true)); }
+		else if(!emptyDeleteList) { next_state->erase(GroundedCondition(e.get_predicate(), e.get_arg_values(), true)); }
 	}
 	return next_state;
 }
 
-vector<pair<PlanSym::GState_t*,PlanSym::GAction_t*>> PlanSym::GetSuccessors(GState_t* current_state)
+vector<pair<PlanSym::GState_t*,PlanSym::GAction_t*>> PlanSym::GetSuccessors(GState_t* current_state, bool emptyDeleteList)
 {
 	vector<pair<GState_t*,GAction_t*>> successor_states;
 	for(GAction_t* action: m_grounded_actions)
 	{
 		if(IsValidAction(current_state, action))
-			successor_states.push_back(pair<GState_t*, GAction_t*>(AffectAction(current_state, action),action));
+			successor_states.push_back(pair<GState_t*, GAction_t*>(AffectAction(
+				current_state, action, emptyDeleteList),action));
 	}
 
 	return successor_states;
@@ -176,7 +188,39 @@ bool PlanSym::IsStart(GState_t* state)
 	return Contains(state, m_env->get_initial_conditions());
 }
 
-GraphVertex* PlanSym::GetToGoal()
+int PlanSym::GoalTrueCondsUnsatisfied(GState_t* state)
+{
+	return NumTrueCondsUnsatisfied(state, m_env->get_goal_conditions());
+}
+
+int PlanSym::NumTrueCondsUnsatisfied(GState_t* state, GState_t grounded_conditions)
+{
+	bool truth; int count, unsatisfied = 0; 
+	for(GroundedCondition gc: grounded_conditions)
+	{
+		truth = gc.get_truth(); count = state->count(gc);
+		if((truth && !count)){ unsatisfied++; }
+	}
+	return unsatisfied;
+}
+void PlanSym::GetHeuristicValue(GraphVertex* start, int heurType)
+{
+	// heurType = 0 for no heuristic, i.e., Dijkstra
+	// heurType = 1 for empty-delete-list type
+	// heurType = 2 for number-of-unsatisfied-goal-conditions type
+
+	if(heurType == 0) { start->m_hVal = 0; }
+	else if(heurType == 1)
+	{
+		double weight = 1;
+		GraphVertex *goal = GetToGoal(0, start, true);
+		start->m_hVal = (goal==NULL) ? D_INF : weight*goal->m_pCost;
+	}
+	else if(heurType == 2) { start->m_hVal = GoalTrueCondsUnsatisfied(start->m_state); }
+
+}
+
+GraphVertex* PlanSym::GetToGoal(int heurType, GraphVertex* start, bool emptyDeleteList)
 {
 	priority_queue<GraphVertex*, vector<GraphVertex*>, Compare> open;
 	unordered_map<GraphVertex*, bool> closed;
@@ -184,11 +228,12 @@ GraphVertex* PlanSym::GetToGoal()
 	vector<pair<GState_t*,GAction_t*>> successors; 
 	int gInd; double pCost;
 
-	GraphVertex* curr = new GraphVertex(new GState_t(m_env->get_initial_conditions()), 0);
+	GraphVertex *curr = new GraphVertex(new GState_t(m_env->get_initial_conditions()), 0, m_env->get_goal_conditions());
+	if(start != NULL){ curr = new GraphVertex(new GState_t(*(start->m_state)), 0, m_env->get_goal_conditions()); }
+	GetHeuristicValue(curr, heurType);
+	curr->Set_fVal();
 	open.push(curr);
 	graph[hashIndex(curr->m_state)] = curr;
-
-	m_numStatesExpanded = 0;
 
 	while(!open.empty())
 	{
@@ -196,23 +241,32 @@ GraphVertex* PlanSym::GetToGoal()
 		curr = open.top(); closed[curr] = 1; open.pop();
 		pCost = curr->m_pCost;
 
-		m_numStatesExpanded++;
+
+		if(!emptyDeleteList){ m_numStatesExpanded++; cout << m_numStatesExpanded << '\n'; cout << *curr; }
 
 		if(IsGoal(curr->m_state)){ return curr; }
-		successors = GetSuccessors(curr->m_state);
+
+		successors = GetSuccessors(curr->m_state, emptyDeleteList);
 		for(int i = 0; i < successors.size(); i++)
 		{
 			gInd = hashIndex(successors[i].first);
 			if(graph[gInd] == NULL)
 			{
-				graph[gInd] = new GraphVertex(successors[i].first, pCost+1, curr, successors[i].second);
+				graph[gInd] = new GraphVertex(successors[i].first, pCost+1, curr, successors[i].second, m_env->get_goal_conditions());
+				GetHeuristicValue(graph[gInd], heurType);
+				graph[gInd]->Set_fVal();
 				open.push(graph[gInd]);
 			}
 			else
 			{
 				graph[gInd]->m_parents.push_back(curr);
 				graph[gInd]->m_parActions.push_back(successors[i].second);
-				if(graph[gInd]->m_pCost > pCost+1){ graph[gInd]->m_pCost = pCost+1; open.push(graph[gInd]); }
+				if(graph[gInd]->m_pCost > pCost+1)
+				{ 
+					graph[gInd]->m_pCost = pCost+1; 
+					graph[gInd]->Set_fVal();
+					open.push(graph[gInd]); 
+				}
 			}
 		}
 	}
@@ -240,9 +294,15 @@ list<PlanSym::GAction_t> PlanSym::BacktrackPath(GraphVertex* goal)
 
 list<PlanSym::GAction_t> PlanSym::GetPlan()
 {
+	m_numStatesExpanded = 0;
 	clock_t begin_time = clock();
-	GraphVertex* goal = GetToGoal();
-	if(goal == NULL){ cout << "Didn't get to goal\n"; return list<GAction_t>(); }
+	GraphVertex* goal = GetToGoal(m_heurType);
+	if(goal == NULL)
+	{ 
+		cout << "Didn't get to goal\n"; 
+		cout << "Number of States Expanded = " << m_numStatesExpanded << '\n';
+		return list<GAction_t>();
+	}
 
 	cout << "Cost to goal = " << goal->m_pCost << '\n';
 	cout << "Number of States Expanded = " << m_numStatesExpanded << '\n';

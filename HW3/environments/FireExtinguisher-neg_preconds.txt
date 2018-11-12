@@ -1,0 +1,40 @@
+Symbols: A,B,C,D,E,W,F,Q,R
+Initial conditions: Quad(Q), Rob(R), Loc(A), Loc(B), Loc(C), Loc(D), Loc(E), Loc(W), Loc(F), Fire(F), Water(W), On(Q,B), On(R,A), High(Q), InAir(Q), Empty(Q), Zero(F)
+Goal conditions: NotBurn(F)
+
+Actions:
+        MoveToLoc(y,z)
+        Preconditions: Loc(y), Loc(z), On(R,y), InAir(Q)
+        Effects: !On(R,y), On(R,z)
+
+        MoveTogether(z,v)
+        Preconditions: Loc(z), Loc(v), On(R,z), On(Q,z), !InAir(Q)
+        Effects: !On(R,z), !On(Q,z), On(R,v), On(Q,v)
+
+        TakeOffFromRob(z)
+        Preconditions: Loc(z), On(R,z), On(Q,z), !InAir(Q), High(Q)
+        Effects: InAir(Q)
+
+        LandOnRob(z)
+        Preconditions: Loc(z), On(R,z), On(Q,z), InAir(Q)
+        Effects: !InAir(Q)
+
+        Charge(x)
+        Preconditions: Quad(x), !InAir(x), !High(x)
+        Effects: High(x)
+
+        PourOne(y)
+        Preconditions: Fire(y), On(Q,y), InAir(Q), High(Q), !Empty(Q), Zero(y)
+        Effects: Empty(Q), One(y), !Zero(y), !InAir(Q), !High(Q)
+
+        PourTwo(y)
+        Preconditions: Fire(y), On(Q,y), InAir(Q), High(Q), !Empty(Q), One(y)
+        Effects: Empty(Q), Two(y), !One(y), !InAir(Q), !High(Q)
+
+        PourThree(y)
+        Preconditions: Fire(y), On(Q,y), InAir(Q), High(Q), !Empty(Q), Two(y)
+        Effects: Empty(Q), NotBurn(y), !Two(y), !InAir(Q), !High(Q)
+
+        FillTank(z)
+        Preconditions: Water(z), On(R,z), On(Q,z), !InAir(Q), Empty(Q)
+        Effects: !Empty(Q)

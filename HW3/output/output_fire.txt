@@ -1,0 +1,97 @@
+Heuristic 0
+
+***** Environment Created! *****
+Cost to goal = 19
+Number of States Expanded = 353
+Planning Time = 0.461554 s
+
+Plan: 
+MoveToLoc(A,B) 
+LandOnRob(B) 
+MoveTogether(B,W) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourOne(F) 
+MoveTogether(F,W) 
+FillTank(W) 
+Charge(Q) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourTwo(F) 
+MoveTogether(F,W) 
+Charge(Q) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourThree(F)
+
+
+
+
+
+
+
+
+Heuristic = 1
+
+***** Environment Created! *****
+Cost to goal = 19
+Number of States Expanded = 246
+Planning Time = 206.527 s
+
+Plan: 
+MoveToLoc(A,B) 
+LandOnRob(B) 
+MoveTogether(B,W) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourOne(F) 
+Charge(Q) 
+MoveTogether(F,W) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourTwo(F) 
+Charge(Q) 
+MoveTogether(F,W) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourThree(F)
+
+
+
+
+
+
+
+
+Heuristic = 2
+
+***** Environment Created! *****
+Cost to goal = 19
+Number of States Expanded = 353
+Planning Time = 0.494718 s
+
+Plan: 
+MoveToLoc(A,B) 
+LandOnRob(B) 
+MoveTogether(B,W) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourOne(F) 
+MoveTogether(F,W) 
+FillTank(W) 
+Charge(Q) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourTwo(F) 
+MoveTogether(F,W) 
+Charge(Q) 
+FillTank(W) 
+MoveTogether(W,F) 
+TakeOffFromRob(F) 
+PourThree(F)

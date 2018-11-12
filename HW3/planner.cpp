@@ -313,24 +313,11 @@ Env* create_env(char* filename)
 
 list<GroundedAction> planner(Env* env)
 {
-    // this is where you insert your planner
-
-    // blocks world example
     list<GroundedAction> actions;
-    actions.push_back(GroundedAction("MoveToTable", { "A", "B" }));
-    actions.push_back(GroundedAction("Move", { "C", "Table", "A" }));
-    actions.push_back(GroundedAction("Move", { "B", "Table", "C" }));
-
-    PlanSym* plan_obj = new PlanSym(env);
-    // vector<vector<vector<string>>> seq = plan_obj->GetActionSymSequencesUnique();
-    // cout << seq.size() << '\n';
-    // for(int i = 0; i < seq[0].size(); i++)
-    // {
-    //     for(int j = 0; j < seq[0][i].size(); j++)
-    //         cout << seq[0][i][j] << ' ';
-    //     cout << '\n';
-    // }
-
+    int heurType = 0;	/* NO HEURISTIC - DIJKSTRA*/
+    // heurType = 1;   	/* UNCOMMENT FOR ADMISSIBLE HEURISTIC */
+    // heurType = 2;   	/* UNCOMMENT FOR INADMISSIBLE HEURISTIC */
+    PlanSym* plan_obj = new PlanSym(env, heurType);
     actions = plan_obj->GetPlan();
 
     return actions;
